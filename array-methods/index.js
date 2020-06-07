@@ -73,9 +73,54 @@ const reduced = reduceFn(reduceArray, reduceCallback, initial);
 
 
 /* Reduce right */
-function reduceRightFn(array, callback, initial){}
+function reduceRightFn(array, reduceRightCallback, initial = undefined) {
+    array = array.reverse();
+    console.log(array)
+    let accumulator = initial;
 
-function everyFn(array, callback){}
+    if(accumulator === undefined) {
+        accumulator = array[0];
+        array.splice(0, 1);
+    }
+
+    array.forEach(element => {
+        accumulator = reduceRightCallback(accumulator, element)
+    })
+
+    return accumulator;
+}
+
+function reduceRightCallback(accumulator, arrayElement) {
+    return accumulator * arrayElement;
+}
+
+//Reduce right example
+const reduceRightArray = [2, 3, 4, 5];
+const initialRight = undefined;
+const reducedRight = reduceFn(reduceRightArray, reduceRightCallback, initialRight);
+// console.log(reducedRight);
+
+/* Every */
+function everyFn(array, everyCallback){
+    let isCorrect = true
+    array.forEach(element => {
+        if(everyCallback(element) === false) {
+            isCorrect = false;
+            return;
+        }
+    })
+    return isCorrect;
+}
+
+function everyCallback(element) {
+    return element > 1 ;
+}
+
+//Every example
+const everyArray = [3,4,5,6,7];
+const everyAreBigEnought = everyFn(everyArray, everyCallback);
+// console.log(everyAreBigEnought);
+
 
 function someFn(array, callback){}
 
