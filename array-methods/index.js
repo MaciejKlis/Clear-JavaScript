@@ -121,7 +121,27 @@ const everyArray = [3,4,5,6,7];
 const everyAreBigEnought = everyFn(everyArray, everyCallback);
 // console.log(everyAreBigEnought);
 
+/* Some */
+function someFn(array, someCallback){
+    let isOneCorrect = false;
 
-function someFn(array, callback){}
+    array.forEach(element => {
+        if(someCallback(element) === true) {
+            isOneCorrect = true;
+            return;
+        }
+    })
+
+    return isOneCorrect;
+}
+
+function someCallback(element){
+    return element > 2 ;
+}
+
+//Some example
+const someArray = [1,0,1,2];
+const isAnyoneCorrect = someFn(someArray, someCallback);
+console.log(isAnyoneCorrect);
 
 function entriesFn(array){}
