@@ -46,8 +46,33 @@ const filterArray = [12, 5, 8, 130, 44];
 const filtredArray = filterFn(filterArray, filterCallback);
 // console.log(fitredArray)
 
-function reduceFn(array, callback, initial) {}
+/* Reduce */
+function reduceFn(array, reduceCallback, initial = undefined) {
+    let accumulator = initial;
 
+    if(accumulator === undefined) {
+        accumulator = array[0];
+        array.splice(0, 1);
+    }
+
+    array.forEach(element => {
+        accumulator = reduceCallback(accumulator, element)
+    })
+
+    return accumulator;
+}
+
+function reduceCallback(accumulator, arrayElement) {
+    return accumulator + arrayElement;
+}
+// Reduce example //
+const reduceArray = [2, 3, 4, 5];
+const initial = undefined;
+const reduced = reduceFn(reduceArray, reduceCallback, initial);
+// console.log(reduced);
+
+
+/* Reduce right */
 function reduceRightFn(array, callback, initial){}
 
 function everyFn(array, callback){}
