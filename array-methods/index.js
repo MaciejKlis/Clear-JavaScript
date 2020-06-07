@@ -142,6 +142,18 @@ function someCallback(element){
 //Some example
 const someArray = [1,0,1,2];
 const isAnyoneCorrect = someFn(someArray, someCallback);
-console.log(isAnyoneCorrect);
+// console.log(isAnyoneCorrect);
 
-function entriesFn(array){}
+/* Entries */
+function entriesFn(array){
+    let object = [];
+    array.forEach( (element, index) => {
+        object[index] = [index, element]
+    })
+    return object;
+}
+
+const entriesArray = [1, 2, 3, 4];
+const returnedObject = entriesFn(entriesArray);
+for (let property of returnedObject) 
+    console.log(property);
