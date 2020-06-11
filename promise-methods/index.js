@@ -1,40 +1,68 @@
-// Programowanie asynchroniczne oraz promisy
+//Write  Promis methods by yourself
 
-// w Javascript Promise posiadają swoje metody
-// Promise.all(arrayOfPromises)
-// Promise.race(arrayOfPromises)
+const promise1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 1000, 'first is done');
+});
+
+const promise2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 2000, 'second is done');
+})
+
+const promise3 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 3000, 'thrid is done');
+})
+const promise4 = 23;
+
+const arrayOfPromises = [promise1, promise2, promise3]
 
 
-// Wg mnie powinny jeszcze posiadać metodę:
-// Promise.last(arrayOfPromise) - zwraca do then tylko ostatnią promisę, która się wykonała asynchronicznie, 
-// a jeśli wystąpił błąd w co najmniej jednej promisę, zwraca do catch ten błąd po ukończeniu ostatniej promisy
-
-// Promise.ignoreErrors(arrayOfPromise) - nie ważne co się stanie, 
-// zwracane są tylko te wyniki promise, które zakończyły się sukcesem, błędy są ignorowane
-
-
-// skopiuj identyczne działanie tych metod w funkcjach
+//Promise.all
 const promiseAll = (arrayOfPromise) => {
-    return new Promise((resolve, reject)=>{
-        // ...
+    return new Promise((resolve, reject) => {
+        const arrayData = new Array(arrayOfPromises.length);
+        let resolvedCounter = 0;
+
+        arrayOfPromise.forEach( (promise, index) => {
+            if(promise instanceof Promise) {
+                promise.then((data)=>{
+                    resolvedCounter++; 
+                    arrayData[index] = data;
+
+                    if(arrayOfPromise.length === resolvedCounter)
+                        resolve(arrayData);            
+                }).catch((data)=>{
+                    reject(data)
+                })
+            } else {
+                resolvedCounter++;
+                arrayData[index] = promise;            
+            }
+        })
     })
 }
+// promiseAll(arrayOfPromises).then(data => console.log(data)).catch(data => console.log(data))
+// Promise.all(arrayOfPromises).then(data => console.log(data)).catch(data => console.log(data))
 
-const promiseRace = (arrayOfPromise) => {
-    return new Promise((resolve, reject)=>{
-        // ...
-    })
-}
+//Promise.race
+// const promiseRace = (arrayOfPromise) => {
+//     return new Promise((resolve, reject)=>{
+//         // ...
+//     })
+// }
 
-const promiseLast = (arrayOfPromise) => {
-    return new Promise((resolve, reject)=>{
-        // ...
-    })
-}
+//New method :) 
+//Promise.last
+// const promiseLast = (arrayOfPromise) => {
+//     return new Promise((resolve, reject)=>{
+//         // ...
+//     })
+// }
 
 
-const promiseIgnoreErrors = (arrayOfPromise) => {
-    return new Promise((resolve, reject)=>{
-        // ...
-    })
-}
+//New method :) 
+//Promise.ignoreErrors
+// const promiseIgnoreErrors = (arrayOfPromise) => {
+//     return new Promise((resolve, reject)=>{
+//         // ...
+//     })
+// }
