@@ -13,7 +13,7 @@ const promise3 = new Promise((resolve, reject) => {
 })
 const promise4 = 23;
 
-const arrayOfPromises = [promise1, promise2, promise3]
+const arrayOfPromises = [promise1, promise2, promise3, promise4]
 
 
 //Promise.all
@@ -44,11 +44,22 @@ const promiseAll = (arrayOfPromise) => {
 // Promise.all(arrayOfPromises).then(data => console.log(data)).catch(data => console.log(data))
 
 //Promise.race
-// const promiseRace = (arrayOfPromise) => {
-//     return new Promise((resolve, reject)=>{
-//         // ...
-//     })
-// }
+const promiseRace = (arrayOfPromise) => {
+    return new Promise((resolve, reject)=>{
+        arrayOfPromises.forEach(single => {
+            if(single instanceof Promise){
+                single
+                    .then( data => resolve(data))
+                    .catch( data => reject(data));
+            } else {
+                resolve(single);
+            }
+        })
+    })
+}
+
+promiseRace(arrayOfPromises).then(data => console.log(data)).catch(data => console.log(data))
+Promise.race(arrayOfPromises).then(data => console.log(data)).catch(data => console.log(data))
 
 //New method :) 
 //Promise.last
