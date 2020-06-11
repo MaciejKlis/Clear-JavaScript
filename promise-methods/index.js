@@ -1,11 +1,11 @@
 //Write  Promis methods by yourself
 
 const promise1 = new Promise((resolve, reject) => {
-    setTimeout(reject, 1000, 'first is done');
+    setTimeout(resolve, 1000, 'first is done');
 });
 
 const promise2 = new Promise((resolve, reject) => {
-    setTimeout(resolve, 2000, 'second is done');
+    setTimeout(resolve, 00, 'second is done');
 })
 
 const promise3 = new Promise((resolve, reject) => {
@@ -97,14 +97,46 @@ const promiseLast = (arrayOfPromise) => {
     })
 }
 
-promiseLast(arrayOfPromises)
-    .then(data => console.log(data))
-    .catch(data => console.error(data))
+// promiseLast(arrayOfPromises)
+//     .then(data => console.log(data))
+//     .catch(data => console.error(data))
 
-//New method :) 
-//Promise.ignoreErrors
-// const promiseIgnoreErrors = (arrayOfPromise) => {
-//     return new Promise((resolve, reject)=>{
-//         // ...
-//     })
-// }
+// New method :) 
+// Promise.ignoreErrors
+// In this method we ignore errors, we return array only from
+// resolved promises 
+
+const promiseIgnoreErrors = (arrayOfPromise) => {
+    return new Promise((resolve, reject) => {
+        const arrayData = []
+        let counterOfExecuted = 0;
+
+        arrayOfPromise.forEach( (single, index) => {
+            if(single instanceof Promise) {
+                single
+                    .then((data)=>{
+                        counterOfExecuted++; 
+                        arrayData.push(data)
+
+                        if(arrayOfPromise.length === counterOfExecuted)
+                            resolve(arrayData);            
+                    })
+                    .catch(()=>{
+                        counterOfExecuted++;
+                        if(arrayOfPromise.length === counterOfExecuted)
+                            resolve(arrayData);
+                    })
+            } else {
+                counterOfExecuted++;
+                arrayData.push(single);
+                if(arrayOfPromise.length === counterOfExecuted)
+                    resolve(arrayData);            
+            }
+        })
+    })
+}
+
+promiseIgnoreErrors(arrayOfPromises)
+    .then((data)=>{
+        console.log(data)
+    })
